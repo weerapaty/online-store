@@ -42,7 +42,7 @@ export default function SurprisePage() {
 
       <div className="z-10 flex flex-col items-center space-y-6">
         {!isScared ? (
-          <h1 className="text-4xl font-bold drop-shadow">💘 Happy Valentine's Day 💘</h1>
+          <h1 className="text-4xl font-bold drop-shadow">💘 เปิดดดดดดดดด 💘</h1>
         ) : (
           <>
             <Image
