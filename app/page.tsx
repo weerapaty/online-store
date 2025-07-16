@@ -1,60 +1,63 @@
+// page.tsx
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
 
-export default function ValentinePage() {
-  const [showLove, setShowLove] = useState(false)
-  const [fallingHearts, setFallingHearts] = useState<string[]>([])
+export default function SurprisePage() {
+  const [isScared, setIsScared] = useState(false)
+  const [ghosts, setGhosts] = useState<string[]>([])
 
-  const triggerHearts = () => {
-    // ลบข้อความ Happy ออกก่อน
-    setShowLove(true)
+  const triggerScare = () => {
+    setIsScared(true)
+    const ghostArray = Array.from({ length: 30 }, () => '👻')
+    setGhosts(ghostArray)
 
-    // เริ่มให้หัวใจร่วง
-    const hearts = Array.from({ length: 50 }, () => '💗')
-    setFallingHearts(hearts)
-
-    // ล้างหัวใจและข้อความหลัง 4 วิ
+    // reset after 5 seconds
     setTimeout(() => {
-      setFallingHearts([])
-      setShowLove(false)
-    }, 4000)
+      setGhosts([])
+    }, 5000)
   }
 
   return (
-    <main className="relative h-screen bg-pink-100 flex items-center justify-center text-center overflow-hidden">
-      {/* หัวใจร่วง */}
-      {fallingHearts.map((heart, i) => (
+    <main
+      className={`relative h-screen flex items-center justify-center text-center overflow-hidden transition-all duration-1000 ${
+        isScared ? 'bg-black text-white' : 'bg-pink-100 text-rose-600'
+      }`}
+    >
+      {/* 👻 ผีร่วง */}
+      {ghosts.map((ghost, i) => (
         <div
           key={i}
-          className="absolute text-pink-500 animate-fall"
+          className="absolute text-3xl animate-spooky-fall"
           style={{
             left: `${Math.random() * 100}%`,
-            animationDuration: `${1 + Math.random() * 2}s`,
-            fontSize: `${20 + Math.random() * 30}px`,
+            animationDuration: `${1 + Math.random() * 1.5}s`,
+            fontSize: `${24 + Math.random() * 24}px`,
             top: '-2rem',
-            opacity: 0.9,
           }}
         >
-          {heart}
+          {ghost}
         </div>
       ))}
 
-      {/* ปุ่ม + ข้อความ */}
-      <div className="z-10 flex flex-col items-center">
-        {!showLove && (
-          <h1 className="text-3xl md:text-4xl font-bold text-rose-600 drop-shadow-md mb-4">
-            💘 เปิดดดดดดดดดด 💘
-          </h1>
-        )}
-
-        {showLove && (
-          <p className="text-5xl text-pink-600 font-bold mb-6 drop-shadow-lg animate-bounce">
-            รักนะ 💖
-          </p>
+      <div className="z-10 flex flex-col items-center space-y-6">
+        {!isScared ? (
+          <h1 className="text-4xl font-bold drop-shadow">💘 Happy Valentine's Day 💘</h1>
+        ) : (
+          <>
+            <Image
+  src="/ghost.png"
+  alt="Ghost"
+  width={400}
+  height={400}
+  className="animate-shake"
+/>
+            <p className="text-3xl font-bold animate-shake">ตกใจหมดเลย!! 👻</p>
+          </>
         )}
 
         <button
-          onClick={triggerHearts}
+          onClick={triggerScare}
           className="bg-rose-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-rose-600 transition-all duration-300"
         >
           กดเพื่อเซอร์ไพรส์
