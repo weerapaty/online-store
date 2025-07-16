@@ -1,42 +1,65 @@
-export default function Home() {
-  const products = [
-    {
-      id: 1,
-      name: "ชุดปลูกผักไฮโดรโปนิกส์",
-      price: 499,
-      image: "https://images.unsplash.com/photo-1582281298055-24fe3c2f33f7",
-    },
-    {
-      id: 2,
-      name: "เมล็ดพันธุ์ผักสวนครัว",
-      price: 89,
-      image: "https://images.unsplash.com/photo-1612010161086-4d6f3d6f40da",
-    },
-    {
-      id: 3,
-      name: "เครื่องพ่นน้ำอัตโนมัติ",
-      price: 1290,
-      image: "https://images.unsplash.com/photo-1502741338009-cac2772e18bc",
-    },
-  ];
+'use client'
+import { useState } from 'react'
+
+export default function ValentinePage() {
+  const [showLove, setShowLove] = useState(false)
+  const [fallingHearts, setFallingHearts] = useState<string[]>([])
+
+  const triggerHearts = () => {
+    // ลบข้อความ Happy ออกก่อน
+    setShowLove(true)
+
+    // เริ่มให้หัวใจร่วง
+    const hearts = Array.from({ length: 50 }, () => '💗')
+    setFallingHearts(hearts)
+
+    // ล้างหัวใจและข้อความหลัง 4 วิ
+    setTimeout(() => {
+      setFallingHearts([])
+      setShowLove(false)
+    }, 4000)
+  }
 
   return (
-    <main className="p-6">
-      <h1 className="text-3xl font-bold mb-6">ร้านขายของออนไลน์</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {products.map((p) => (
-          <div key={p.id} className="bg-white shadow-md rounded-2xl overflow-hidden">
-            <img src={p.image} alt={p.name} className="w-full h-48 object-cover" />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold">{p.name}</h2>
-              <p className="text-green-600 font-bold">฿{p.price.toLocaleString()}</p>
-              <button className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
-                เพิ่มในตะกร้า
-              </button>
-            </div>
-          </div>
-        ))}
+    <main className="relative h-screen bg-pink-100 flex items-center justify-center text-center overflow-hidden">
+      {/* หัวใจร่วง */}
+      {fallingHearts.map((heart, i) => (
+        <div
+          key={i}
+          className="absolute text-pink-500 animate-fall"
+          style={{
+            left: `${Math.random() * 100}%`,
+            animationDuration: `${1 + Math.random() * 2}s`,
+            fontSize: `${20 + Math.random() * 30}px`,
+            top: '-2rem',
+            opacity: 0.9,
+          }}
+        >
+          {heart}
+        </div>
+      ))}
+
+      {/* ปุ่ม + ข้อความ */}
+      <div className="z-10 flex flex-col items-center">
+        {!showLove && (
+          <h1 className="text-3xl md:text-4xl font-bold text-rose-600 drop-shadow-md mb-4">
+            💘 เปิดดดดดดดดดด 💘
+          </h1>
+        )}
+
+        {showLove && (
+          <p className="text-5xl text-pink-600 font-bold mb-6 drop-shadow-lg animate-bounce">
+            รักนะ 💖
+          </p>
+        )}
+
+        <button
+          onClick={triggerHearts}
+          className="bg-rose-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:bg-rose-600 transition-all duration-300"
+        >
+          กดเพื่อเซอร์ไพรส์
+        </button>
       </div>
     </main>
-  );
+  )
 }
